@@ -26,7 +26,7 @@ export default function StepIndicator({ current, total }: Props) {
             }}>
               {i + 1 < current ? '✓' : i + 1}
             </div>
-            <span style={{
+            <span className="step-label" style={{
               fontSize: '0.6rem', color: i + 1 <= current ? '#2563EB' : '#9ca3af',
               fontWeight: i + 1 === current ? 700 : 400,
               display: 'block',

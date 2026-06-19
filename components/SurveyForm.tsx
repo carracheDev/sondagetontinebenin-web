@@ -531,7 +531,7 @@ export default function SurveyForm() {
         )}
 
         {/* Navigation */}
-        <div style={{ display: 'flex', gap: '0.75rem', marginTop: '1.5rem' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem', marginTop: '1.5rem' }} className="btn-container">
           {step > 1 && (
             <button className="btn-secondary" onClick={prev} style={{ flex: 1 }}>
               ← Retour

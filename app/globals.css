@@ -169,3 +169,41 @@ body {
   border-radius: 99px;
   transition: width 0.4s ease;
 }
+
+.btn-container {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+@media (min-width: 481px) {
+  .btn-container {
+    flex-direction: row;
+  }
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 480px) {
+  .card {
+    padding: 1.25rem;
+    border-radius: 12px;
+  }
+  
+  .btn-primary, .btn-secondary {
+    padding: 0.75rem 1rem;
+    font-size: 0.9rem;
+  }
+  
+  .choice-item {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+  }
+  
+  h1 {
+    font-size: 1.2rem !important;
+  }
+  
+  .step-label {
+    display: none !important;
+  }
+}
