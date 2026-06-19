@@ -146,6 +146,7 @@ export default function ResultatsDashboard() {
   const [auth, setAuth] = useState(false);
   const [reponses, setReponses] = useState<Reponse[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showTimeoutHelp, setShowTimeoutHelp] = useState(false);
 
   useEffect(() => {
     if (!auth) return;
@@ -153,18 +154,56 @@ export default function ResultatsDashboard() {
       setLoading(false);
       return;
     }
+
+    const timer = setTimeout(() => {
+      if (loading) setShowTimeoutHelp(true);
+    }, 7000);
+
     const dbRef = ref(db, 'sondage_reponses');
     const unsubscribe = onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
       setReponses(data ? (Object.values(data) as Reponse[]) : []);
       setLoading(false);
+      setShowTimeoutHelp(false);
+      clearTimeout(timer);
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      clearTimeout(timer);
+    };
   }, [auth]);
 
   if (!auth) return <PasswordGate onAuth={() => setAuth(true)} />;
 
-  if (!db && !loading) {
+  if (loading) {
+    return (
+      <main style={{ minHeight: '100vh', background: 'var(--lavender)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
+        <div style={{ textAlign: 'center' }}>
+          <div className="card" style={{ padding: '2rem', maxWidth: 400 }}>
+            <div className="spinner" style={{ margin: '0 auto 1.5rem' }} />
+            <p style={{ color: '#1E3A8A', fontWeight: 600 }}>Chargement des données...</p>
+            
+            {showTimeoutHelp && (
+              <div style={{ marginTop: '1.5rem', padding: '1rem', background: '#fff7ed', borderRadius: 12, border: '1px solid #ffedd5' }}>
+                <p style={{ color: '#9a3412', fontSize: '0.85rem', lineHeight: 1.5 }}>
+                  <strong>Connexion longue ?</strong><br/>
+                  Si vous venez d'ajouter les variables sur Vercel, vous devez <strong>redéployer</strong> le projet pour qu'elles soient activées.
+                </p>
+                <button onClick={() => window.location.reload()} style={{
+                  marginTop: '0.75rem', background: '#f97316', color: 'white', border: 'none',
+                  padding: '0.5rem 1rem', borderRadius: 8, fontSize: '0.8rem', fontWeight: 600, cursor: 'pointer'
+                }}>
+                  Actualiser la page
+                </button>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
+    );
+  }
+
+  if (!db) {
     return (
       <main style={{ minHeight: '100vh', background: 'var(--lavender)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
         <div className="card" style={{ maxWidth: 500, textAlign: 'center' }}>
