@@ -186,7 +186,7 @@ export default function ResultatsDashboard() {
       </div>
 
       {!loading && reponses.length > 0 && (
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', marginBottom: '2rem' }} className="kpi-container">
           <KPICard label="Net Promoter Score" value={nps} sub={`${promoters} Promoteurs / ${detractors} Détracteurs`} color="#10b981" />
           <KPICard label="Switch Rate" value={`${switchPercent}%`} sub="Prêts à quitter leur collecteur" color="#2563EB" />
           <KPICard label="Capital Perdu (Total)" value={`${totalPerte.toLocaleString()} F`} sub="Douleur financière identifiée" color="#ef4444" />

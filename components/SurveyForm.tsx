@@ -179,7 +179,7 @@ export default function SurveyForm() {
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
                 2. Vous êtes ? *
               </label>
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {['Homme','Femme'].map(v => (
                   <RadioChoice key={v} name="sexe" value={v} label={v}
                     selected={data.sexe === v} onSelect={() => set('sexe', v)} />
@@ -211,7 +211,7 @@ export default function SurveyForm() {
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
                 5. Quel type de téléphone utilisez-vous ? *
               </label>
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {['Android (Smartphone)', 'Téléphone à touches (Nokia)'].map(v => (
                   <RadioChoice key={v} name="typedevise" value={v} label={v}
                     selected={data.typedevise === v} onSelect={() => set('typedevise', v)} />
@@ -271,7 +271,7 @@ export default function SurveyForm() {
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
                 7. Fréquence de cotisation ? *
               </label>
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {['Quotidien', 'Hebdo', 'Mensuel'].map(v => (
                   <RadioChoice key={v} name="frequence" value={v} label={v}
                     selected={data.frequence === v} onSelect={() => set('frequence', v)} />
@@ -368,7 +368,7 @@ export default function SurveyForm() {
                 <p style={{ fontSize: '0.8rem', color: '#0c4a6e', marginBottom: '0.5rem' }}>
                   Seriez-vous prêt à gérer par codes comme *144# ?
                 </p>
-                <div style={{ display: 'flex', gap: '0.75rem' }}>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                   {['Oui', 'Non'].map(v => (
                     <RadioChoice key={v} name="receptionUSSD" value={v} label={v}
                       selected={data.receptionUSSD === v} onSelect={() => set('receptionUSSD', v)} />
@@ -390,7 +390,7 @@ export default function SurveyForm() {
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
                 14. Frais Fixes : Accepteriez-vous 100 F pour 5 000 F retirés (plus sûr que MoMo) ? *
               </label>
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {['Oui', 'Trop cher', 'Peut-être'].map(v => (
                   <RadioChoice key={v} name="fraisRetrait" value={v} label={v}
                     selected={data.fraisRetrait === v} onSelect={() => set('fraisRetrait', v)} />
@@ -402,7 +402,7 @@ export default function SurveyForm() {
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
                 15. Auriez-vous besoin d'un coup de main financier (crédit activité) basé sur votre épargne ? *
               </label>
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {['Oui', 'Non'].map(v => (
                   <RadioChoice key={v} name="souhaiteCredit" value={v} label={v}
                     selected={data.souhaiteCredit === v} onSelect={() => set('souhaiteCredit', v)} />
@@ -440,7 +440,7 @@ export default function SurveyForm() {
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
                 17. Seriez-vous prêt(e) à quitter votre système actuel pour TontineBénin ? *
               </label>
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {['Oui', 'Non', 'À tester'].map(v => (
                   <RadioChoice key={v} name="pretASwitcher" value={v} label={v}
                     selected={data.pretASwitcher === v} onSelect={() => set('pretASwitcher', v)} />
@@ -494,7 +494,7 @@ export default function SurveyForm() {
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
                 20. Souhaitez-vous être testeur privilégié ? *
               </label>
-              <div style={{ display: 'flex', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {['Oui', 'Non'].map(v => (
                   <RadioChoice key={v} name="veutTesteur" value={v} label={v}
                     selected={data.veutTesteur === v} onSelect={() => set('veutTesteur', v)} />

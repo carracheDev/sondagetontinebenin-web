@@ -208,4 +208,20 @@ body {
   .step-label {
     display: none !important;
   }
+
+  .kpi-container {
+    flex-direction: column;
+  }
+}
+
+/* Base Responsive Utilities */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 640px) {
+  main {
+    padding: 1rem !important;
+  }
 }
