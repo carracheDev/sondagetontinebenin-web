@@ -20,6 +20,9 @@ type FormData = {
   mobileMoney: string;
   fraisRetrait: string; souhaiteCredit: string; tauxCreditAcceptable: string;
   garantiePadme: string; pretASwitcher: string;
+  besoinCredit12mois: string; refuseCredit: string;
+  connaitPadme: string; dossierAuto: string;
+  aCollecteur: string; collecteurTrace: string;
   preferenceCollecte: string; interetSMS: string;
   npsScore: string;
   veutTesteur: string; telephone: string;
@@ -36,6 +39,9 @@ const initialData: FormData = {
   mobileMoney: '',
   fraisRetrait: '', souhaiteCredit: '', tauxCreditAcceptable: '',
   garantiePadme: '', pretASwitcher: '',
+  besoinCredit12mois: '', refuseCredit: '',
+  connaitPadme: '', dossierAuto: '',
+  aCollecteur: '', collecteurTrace: '',
   preferenceCollecte: '', interetSMS: '',
   npsScore: '',
   veutTesteur: '', telephone: '',
@@ -119,13 +125,19 @@ export default function SurveyForm() {
       }
     }
     if (step === 4) {
-      if (!data.fraisRetrait || !data.souhaiteCredit || !data.garantiePadme || !data.pretASwitcher) {
+      if (!data.fraisRetrait || !data.souhaiteCredit || !data.garantiePadme || !data.pretASwitcher
+          || !data.besoinCredit12mois || !data.connaitPadme || !data.dossierAuto) {
         setError('Veuillez répondre à toutes les questions de cette étape.');
+        return false;
+      }
+      if (data.besoinCredit12mois === 'Oui' && !data.refuseCredit) {
+        setError('Veuillez préciser si vous avez déjà été refusé(e).');
         return false;
       }
     }
     if (step === 5) {
-      if (!data.npsScore || !data.veutTesteur || !data.preferenceCollecte) {
+      if (!data.npsScore || !data.veutTesteur || !data.preferenceCollecte
+          || !data.aCollecteur || !data.collecteurTrace) {
         setError('Veuillez répondre aux questions obligatoires.');
         return false;
       }
@@ -496,6 +508,56 @@ export default function SurveyForm() {
                 ))}
               </div>
             </div>
+
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                Avez-vous eu besoin d&apos;un crédit ces 12 derniers mois (stock, urgence, projet) ? *
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                {['Oui', 'Non'].map(v => (
+                  <RadioChoice key={v} name="besoinCredit12mois" value={v} label={v}
+                    selected={data.besoinCredit12mois === v} onSelect={() => set('besoinCredit12mois', v)} />
+                ))}
+              </div>
+            </div>
+
+            {data.besoinCredit12mois === 'Oui' && (
+              <div style={{ marginBottom: '1.25rem', background: '#fefce8', padding: '1rem', borderRadius: 12, border: '1px solid #fef08a' }}>
+                <label style={{ display: 'block', fontWeight: 700, marginBottom: '0.4rem', color: '#854d0e', fontSize: '0.9rem' }}>
+                  Avez-vous déjà été refusé(e) faute d&apos;historique ou de garantie ?
+                </label>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                  {['Oui', 'Non'].map(v => (
+                    <RadioChoice key={v} name="refuseCredit" value={v} label={v}
+                      selected={data.refuseCredit === v} onSelect={() => set('refuseCredit', v)} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                Connaissez-vous les microfinances (ex. PADME) ? *
+              </label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {['Oui, j\'y suis client(e)', 'J\'en ai entendu parler', 'Non'].map(v => (
+                  <RadioChoice key={v} name="connaitPadme" value={v} label={v}
+                    selected={data.connaitPadme === v} onSelect={() => set('connaitPadme', v)} />
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '0.5rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                Si l&apos;app générait AUTOMATIQUEMENT votre dossier de crédit (basé sur votre épargne) pour une institution comme PADME, l&apos;utiliseriez-vous ? *
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                {['Oui', 'Peut-être', 'Non'].map(v => (
+                  <RadioChoice key={v} name="dossierAuto" value={v} label={v}
+                    selected={data.dossierAuto === v} onSelect={() => set('dossierAuto', v)} />
+                ))}
+              </div>
+            </div>
           </div>
         )}
 
@@ -523,6 +585,30 @@ export default function SurveyForm() {
                     }}>
                     {v}
                   </button>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                Passez-vous par un collecteur (agent qui collecte l&apos;argent) aujourd&apos;hui ? *
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                {['Oui', 'Non', 'Parfois'].map(v => (
+                  <RadioChoice key={v} name="aCollecteur" value={v} label={v}
+                    selected={data.aCollecteur === v} onSelect={() => set('aCollecteur', v)} />
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                Aimeriez-vous un collecteur dont CHAQUE dépôt est confirmé sur votre téléphone (SMS/app) ? *
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                {['Oui sûrement', 'Peut-être', 'Non'].map(v => (
+                  <RadioChoice key={v} name="collecteurTrace" value={v} label={v}
+                    selected={data.collecteurTrace === v} onSelect={() => set('collecteurTrace', v)} />
                 ))}
               </div>
             </div>
