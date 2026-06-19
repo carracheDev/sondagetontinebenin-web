@@ -24,7 +24,19 @@ type QuestionStats = { label: string; counts: Record<string, number>; total: num
 function aggregate(reponses: Reponse[]): QuestionStats[] {
   const count = (field: keyof Reponse) => {
     const c: Record<string, number> = {};
-    reponses.forEach(r => { const v = r[field]; if (v) c[v] = (c[v] || 0) + 1; });
+    reponses.forEach(r => {
+      const v = r[field];
+      if (v) {
+        // Gérer les choix multiples (séparés par des virgules)
+        if (field === 'epargne' && typeof v === 'string') {
+          v.split(', ').forEach((part: string) => {
+            c[part] = (c[part] || 0) + 1;
+          });
+        } else {
+          c[v] = (c[v] || 0) + 1;
+        }
+      }
+    });
     return c;
   };
   return [
@@ -32,7 +44,7 @@ function aggregate(reponses: Reponse[]): QuestionStats[] {
     { label: 'Sexe', counts: count('sexe'), total: reponses.length },
     { label: 'Activité principale', counts: count('activite'), total: reponses.length },
     { label: 'Type de téléphone', counts: count('typedevise'), total: reponses.length },
-    { label: 'Mode d\'épargne actuel', counts: count('epargne'), total: reponses.length },
+    { label: 'Habitudes d\'épargne (Choix multiples)', counts: count('epargne'), total: reponses.length },
     { label: 'Taille des groupes', counts: count('nbMembres'), total: reponses.filter(r => r.nbMembres).length },
     { label: 'Gestionnaire de la caisse', counts: count('gestionnaireArgent'), total: reponses.filter(r => r.gestionnaireArgent).length },
     { label: 'Mode de Communication', counts: count('commMode'), total: reponses.filter(r => r.commMode).length },
