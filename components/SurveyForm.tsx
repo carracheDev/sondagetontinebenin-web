@@ -51,6 +51,20 @@ function RadioChoice({ name, value, label, selected, onSelect }: {
   );
 }
 
+// Composant choix checkbox
+function CheckboxChoice({ label, selected, onToggle }: {
+  label: string; selected: boolean; onToggle: () => void;
+}) {
+  return (
+    <button type="button" className={`choice-item ${selected ? 'selected' : ''}`} onClick={onToggle}>
+      <div className="choice-dot" style={{ borderRadius: 4 }}>
+        {selected && <span style={{ color: 'white', fontSize: '0.8rem', fontWeight: 900 }}>✓</span>}
+      </div>
+      <span>{label}</span>
+    </button>
+  );
+}
+
 const TOTAL_STEPS = 5;
 
 export default function SurveyForm() {
@@ -62,6 +76,17 @@ export default function SurveyForm() {
 
   const set = (field: keyof FormData, value: string) =>
     setData(prev => ({ ...prev, [field]: value }));
+
+  const toggleCheckbox = (field: keyof FormData, value: string) => {
+    setData(prev => {
+      const current = prev[field] as string;
+      const parts = current ? current.split(', ') : [];
+      const next = parts.includes(value)
+        ? parts.filter(p => p !== value)
+        : [...parts, value];
+      return { ...prev, [field]: next.join(', ') };
+    });
+  };
 
   const validate = (): boolean => {
     setError('');
@@ -230,17 +255,25 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                6. Comment épargnez-vous actuellement ? *
+                6. Comment épargnes-tu actuellement ? (Plusieurs choix possibles) *
               </label>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                {['Tontine ambulante (Collecteur)', 'Tontine de groupe (Amis, Travail)', 'Association', 'Banque / Microfinance (IMF)', 'Application Mobile'].map(v => (
-                  <RadioChoice key={v} name="epargne" value={v} label={v}
-                    selected={data.epargne === v} onSelect={() => set('epargne', v)} />
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                {[
+                  'Épargne à la maison / Coffre-fort',
+                  'Tontine de marché (Collecteur)',
+                  'Tontine de groupe (Amis, Travail)',
+                  'Banque / IMF (PADME, FECECAM, etc.)',
+                  'Application mobile / MoMo',
+                  'Association / Mutualité'
+                ].map(v => (
+                  <CheckboxChoice key={v} label={v}
+                    selected={data.epargne.includes(v)}
+                    onToggle={() => toggleCheckbox('epargne', v)} />
                 ))}
               </div>
             </div>
 
-            {(data.epargne.includes('groupe') || data.epargne === 'Association') && (
+            {(data.epargne.includes('groupe') || data.epargne.includes('Association')) && (
               <div style={{ background: '#f8fafc', padding: '1rem', borderRadius: 15, border: '1px solid #e2e8f0', marginBottom: '1.25rem' }}>
                 <div style={{ marginBottom: '1rem' }}>
                   <label style={{ display: 'block', fontWeight: 700, marginBottom: '0.4rem', color: '#475569', fontSize: '0.9rem' }}>
