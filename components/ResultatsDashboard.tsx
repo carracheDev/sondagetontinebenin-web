@@ -134,7 +134,7 @@ export default function ResultatsDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!auth) return;
+    if (!auth || !db) return;
     const dbRef = ref(db, 'sondage_reponses');
     const unsubscribe = onValue(dbRef, (snapshot) => {
       const data = snapshot.val();

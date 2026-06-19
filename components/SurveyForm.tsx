@@ -111,6 +111,10 @@ export default function SurveyForm() {
 
   const submit = async () => {
     if (!validate()) return;
+    if (!db) {
+      setError("Erreur de configuration client. Veuillez réessayer plus tard.");
+      return;
+    }
     setLoading(true);
     try {
       await push(ref(db, 'sondage_reponses'), {

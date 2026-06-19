@@ -11,5 +11,11 @@ const firebaseConfig = {
   databaseURL: process.env.NEXT_PUBLIC_FIREBASE_DATABASE_URL,
 };
 
-const app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
-export const db = getDatabase(app);
+// Éviter le crash au build si les variables ne sont pas là
+const isConfigValid = !!firebaseConfig.apiKey && !!firebaseConfig.databaseURL;
+
+const app = getApps().length === 0 && isConfigValid 
+  ? initializeApp(firebaseConfig) 
+  : (getApps()[0] || null);
+
+export const db = app ? getDatabase(app) : null;
