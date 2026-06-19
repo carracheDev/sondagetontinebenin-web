@@ -166,6 +166,10 @@ export default function ResultatsDashboard() {
       setLoading(false);
       setShowTimeoutHelp(false);
       clearTimeout(timer);
+    }, (err) => {
+      console.error("Firebase Error:", err);
+      setLoading(false);
+      setShowTimeoutHelp(true);
     });
     return () => {
       unsubscribe();
