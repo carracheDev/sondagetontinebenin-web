@@ -148,21 +148,36 @@ export default function ResultatsDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (!auth || !db) return;
+    if (!auth) return;
+    if (!db) {
+      setLoading(false);
+      return;
+    }
     const dbRef = ref(db, 'sondage_reponses');
     const unsubscribe = onValue(dbRef, (snapshot) => {
       const data = snapshot.val();
-      if (data) {
-        setReponses(Object.values(data) as Reponse[]);
-      } else {
-        setReponses([]);
-      }
+      setReponses(data ? (Object.values(data) as Reponse[]) : []);
       setLoading(false);
     });
     return () => unsubscribe();
   }, [auth]);
 
   if (!auth) return <PasswordGate onAuth={() => setAuth(true)} />;
+
+  if (!db && !loading) {
+    return (
+      <main style={{ minHeight: '100vh', background: 'var(--lavender)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem' }}>
+        <div className="card" style={{ maxWidth: 500, textAlign: 'center' }}>
+          <div style={{ fontSize: 40, marginBottom: '1rem' }}>⚠️</div>
+          <h2 style={{ color: '#ef4444', marginBottom: '1rem' }}>Configuration Firebase manquante</h2>
+          <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.5 }}>
+            Les variables d'environnement Firebase ne sont pas configurées sur Vercel.<br/>
+            Veuillez les ajouter dans <strong>Project Settings &gt; Environment Variables</strong>.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   const stats = aggregate(reponses);
 
