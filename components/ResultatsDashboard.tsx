@@ -179,14 +179,13 @@ export default function ResultatsDashboard() {
     <main style={{ minHeight: '100vh', background: 'var(--lavender)', padding: '2rem 1rem 4rem' }}>
       <div style={{ maxWidth: 720, margin: '0 auto' }}>
         {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+        <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
           <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-            background: 'white', borderRadius: 99, padding: '0.4rem 1.2rem',
-            boxShadow: '0 2px 10px rgba(37,99,235,0.12)', marginBottom: '1rem'
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            background: 'white', borderRadius: 20, padding: '0.75rem',
+            boxShadow: '0 4px 12px rgba(37,99,235,0.08)', marginBottom: '1rem'
           }}>
-            <img src="/logo1.png" alt="Logo" style={{ height: 26, width: 'auto' }} />
-            <span style={{ fontWeight: 800, color: '#1E3A8A', fontSize: '1rem', letterSpacing: '-0.02em' }}>TontineBénin</span>
+            <img src="/logo1.png" alt="TontineBénin" style={{ height: 80, width: 'auto' }} />
           </div>
           <h1 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#1E3A8A', marginBottom: 8 }}>
             Résultats du sondage 📊

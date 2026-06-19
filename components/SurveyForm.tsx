@@ -162,12 +162,11 @@ export default function SurveyForm() {
       {/* Header */}
       <div style={{ textAlign: 'center', marginBottom: '1.5rem' }}>
         <div style={{
-          display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-          background: 'white', borderRadius: 99, padding: '0.4rem 1.2rem',
-          boxShadow: '0 2px 10px rgba(37,99,235,0.12)', marginBottom: '1rem'
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          background: 'white', borderRadius: 24, padding: '1rem',
+          boxShadow: '0 4px 15px rgba(37,99,235,0.08)', marginBottom: '1.25rem'
         }}>
-          <img src="/logo1.png" alt="Logo" style={{ height: 28, width: 'auto' }} />
-          <span style={{ fontWeight: 800, color: '#1E3A8A', fontSize: '1rem', letterSpacing: '-0.02em' }}>TontineBénin</span>
+          <img src="/logo1.png" alt="TontineBénin" style={{ height: 100, width: 'auto' }} />
         </div>
         <h1 style={{ fontSize: '1.4rem', fontWeight: 800, color: '#1E3A8A', margin: '0 0 0.4rem' }}>
           Votre avis compte ! 🇧🇯

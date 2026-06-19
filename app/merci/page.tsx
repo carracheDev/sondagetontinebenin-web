@@ -25,15 +25,12 @@ export default function MerciPage() {
     <main style={{ minHeight: '100vh', background: 'var(--lavender)', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }}>
       <div style={{ maxWidth: 480, width: '100%' }}>
         <div className="card" style={{ textAlign: 'center' }}>
-          {/* Succès */}
-          {/* Logo */}
           <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: '0.6rem',
-            background: 'white', borderRadius: 99, padding: '0.4rem 1.2rem',
-            boxShadow: '0 2px 10px rgba(37,99,235,0.12)', marginBottom: '1.25rem'
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            background: 'white', borderRadius: 24, padding: '1rem',
+            boxShadow: '0 4px 15px rgba(37,99,235,0.08)', marginBottom: '1.25rem'
           }}>
-            <img src="/logo1.png" alt="Logo" style={{ height: 24, width: 'auto' }} />
-            <span style={{ fontWeight: 800, color: '#1E3A8A', fontSize: '0.9rem' }}>TontineBénin</span>
+            <img src="/logo1.png" alt="TontineBénin" style={{ height: 140, width: 'auto' }} />
           </div>
 
           <div style={{
