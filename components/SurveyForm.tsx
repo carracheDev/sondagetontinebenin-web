@@ -15,6 +15,7 @@ type FormData = {
   gestionnaireArgent: string;
   commMode: string;
   perteArgent: string; montantPerdu: string;
+  fraisActuels: string;
   probleme: string; barriereAdoption: string;
   mobileMoney: string;
   fraisRetrait: string; souhaiteCredit: string; tauxCreditAcceptable: string;
@@ -30,6 +31,7 @@ const initialData: FormData = {
   epargne: '', frequence: '', montant: '',
   nbMembres: '', gestionnaireArgent: '', commMode: '',
   perteArgent: '', montantPerdu: '',
+  fraisActuels: '',
   probleme: '', barriereAdoption: '',
   mobileMoney: '',
   fraisRetrait: '', souhaiteCredit: '', tauxCreditAcceptable: '',
@@ -82,7 +84,7 @@ export default function SurveyForm() {
       const current = prev[field] as string;
       const parts = current ? current.split(', ') : [];
       const next = parts.includes(value)
-        ? parts.filter(p => p !== value)
+        ? parts.filter(p => p !== (value as string))
         : [...parts, value];
       return { ...prev, [field]: next.join(', ') };
     });
@@ -107,7 +109,7 @@ export default function SurveyForm() {
       }
     }
     if (step === 3) {
-      if (!data.perteArgent || !data.probleme || !data.barriereAdoption || !data.mobileMoney) {
+      if (!data.perteArgent || !data.fraisActuels || !data.probleme || !data.barriereAdoption || !data.mobileMoney) {
         setError('Veuillez répondre à toutes les questions de cette étape.');
         return false;
       }
@@ -265,11 +267,14 @@ export default function SurveyForm() {
                   'Banque / IMF (PADME, FECECAM, etc.)',
                   'Application mobile / MoMo',
                   'Association / Mutualité'
-                ].map(v => (
-                  <CheckboxChoice key={v} label={v}
-                    selected={data.epargne.includes(v)}
-                    onToggle={() => toggleCheckbox('epargne', v)} />
-                ))}
+                ].map(v => {
+                  const isSelected = data.epargne.split(', ').includes(v);
+                  return (
+                    <CheckboxChoice key={v} label={v}
+                      selected={isSelected}
+                      onToggle={() => toggleCheckbox('epargne', v)} />
+                  );
+                })}
               </div>
             </div>
 
@@ -359,7 +364,19 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                11. Quel est le principal défaut de votre système actuel ? *
+                11. Payez-vous des frais de tenue de compte ou des frais cachés actuellement ? *
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                {['Oui, c\'est trop cher', 'Non', 'Je ne sais pas'].map(v => (
+                  <RadioChoice key={v} name="fraisActuels" value={v} label={v}
+                    selected={data.fraisActuels === v} onSelect={() => set('fraisActuels', v)} />
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                12. Quel défaut principal trouves-tu dans ton système actuel ? *
               </label>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {['Manque de confiance', 'Pas de suivi clair', 'Risque de vol', 'Déplacements fatigants', 'Lenteur des retraits'].map(v => (

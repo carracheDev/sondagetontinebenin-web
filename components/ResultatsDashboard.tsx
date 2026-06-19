@@ -10,6 +10,7 @@ type Reponse = {
   epargne?: string; frequence?: string; montant?: string;
   nbMembres?: string; gestionnaireArgent?: string; commMode?: string;
   perteArgent?: string; montantPerdu?: string;
+  fraisActuels?: string;
   probleme?: string; barriereAdoption?: string; mobileMoney?: string;
   fraisRetrait?: string; souhaiteCredit?: string; tauxCreditAcceptable?: string;
   garantiePadme?: string; pretASwitcher?: string;
@@ -49,6 +50,7 @@ function aggregate(reponses: Reponse[]): QuestionStats[] {
     { label: 'Gestionnaire de la caisse', counts: count('gestionnaireArgent'), total: reponses.filter(r => r.gestionnaireArgent).length },
     { label: 'Mode de Communication', counts: count('commMode'), total: reponses.filter(r => r.commMode).length },
     { label: 'Antécédents (Pertes d\'argent)', counts: count('perteArgent'), total: reponses.length },
+    { label: 'Pénalités (Frais de tenue/retrait)', counts: count('fraisActuels'), total: reponses.length },
     { label: 'Défaut principal du système actuel', counts: count('probleme'), total: reponses.length },
     { label: 'Barrières d\'adoption (Peur de l\'app)', counts: count('barriereAdoption'), total: reponses.length },
     { label: 'Accessibilité Mobile Money', counts: count('mobileMoney'), total: reponses.length },
