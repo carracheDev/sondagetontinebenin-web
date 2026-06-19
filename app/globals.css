@@ -199,6 +199,7 @@ body {
     font-size: 0.85rem;
     width: 100% !important;
     justify-content: flex-start;
+    gap: 0.5rem;
   }
   
   /* Forcer l'alignement vertical */

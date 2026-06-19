@@ -212,7 +212,7 @@ export default function SurveyForm() {
                 5. Quel type de téléphone utilisez-vous ? *
               </label>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                {['Android (Smartphone)', 'Téléphone à touches (Nokia)'].map(v => (
+                {['Android (Smartphone)', 'Téléphone à touches (Boutons)'].map(v => (
                   <RadioChoice key={v} name="typedevise" value={v} label={v}
                     selected={data.typedevise === v} onSelect={() => set('typedevise', v)} />
                 ))}
