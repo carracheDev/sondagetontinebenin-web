@@ -197,8 +197,13 @@ body {
   .choice-item {
     padding: 0.75rem 1rem;
     font-size: 0.85rem;
-    width: 100%;
+    width: 100% !important;
     justify-content: flex-start;
+  }
+  
+  /* Forcer l'alignement vertical */
+  div[style*="display: flex"][style*="flex-wrap: wrap"] {
+    flex-direction: column !important;
   }
   
   h1 {
