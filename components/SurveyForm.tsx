@@ -430,12 +430,13 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                12. Quel défaut principal trouvez-vous dans votre système actuel ? *
+                12. Quels défauts trouvez-vous dans votre système actuel ? (Plusieurs choix possibles) *
               </label>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {['Manque de confiance', 'Pas de suivi clair', 'Risque de vol', 'Déplacements fatigants', 'Lenteur des retraits'].map(v => (
-                  <RadioChoice key={v} name="probleme" value={v} label={v}
-                    selected={data.probleme === v} onSelect={() => set('probleme', v)} />
+                  <CheckboxChoice key={v} label={v}
+                    selected={data.probleme.split(', ').includes(v)}
+                    onToggle={() => toggleCheckbox('probleme', v)} />
                 ))}
               </div>
             </div>
