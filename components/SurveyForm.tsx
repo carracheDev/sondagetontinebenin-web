@@ -195,17 +195,18 @@ export default function SurveyForm() {
             Bienvenue 👋
           </h2>
           <p style={{ color: '#374151', fontSize: '0.95rem', lineHeight: 1.55, marginTop: '0.4rem' }}>
-            <strong>TontineBénin</strong> veut digitaliser l&apos;épargne et le crédit au Bénin :
-            épargner en toute sécurité, garder des preuves, et accéder plus facilement au crédit.
-            Vos réponses (anonymes) nous aident à construire la meilleure solution pour vous.
+            <strong>TontineBénin</strong>, c&apos;est épargner et accéder au crédit en toute
+            sécurité, depuis votre téléphone. Vos réponses (anonymes) nous aident à
+            construire la meilleure solution pour vous.
           </p>
 
           <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
             {[
-              ['💰', 'Tontine digitale', 'Cotisez en sécurité, avec un reçu pour chaque dépôt.'],
-              ['🧑🏾‍💼', 'Collecteur digital', 'L\'agent qui collecte votre argent, mais chaque dépôt confirmé sur votre téléphone.'],
+              ['💰', 'Tontine digitale', 'Cotisez en toute sécurité depuis une application, avec un reçu pour chaque dépôt.'],
+              ['🧑🏾‍💼', 'Collecteur digital', 'Un agent vient vous assister à domicile pour épargner, sans jamais toucher d\'espèces : tout passe par votre téléphone (Android ou à touches).'],
+              ['📱', 'Accès sans internet (USSD)', 'Pas de smartphone ni d\'internet ? Accédez aux services par code USSD (#) et SMS.'],
               ['💳', 'Micro-crédit', 'Un petit crédit débloqué grâce à votre régularité d\'épargne, sans paperasse.'],
-              ['🏦', 'Crédit formel (PADME, FECECAM…)', 'Ce sont de grandes institutions de microfinance au Bénin. L\'app peut générer automatiquement votre dossier pour y accéder au crédit.'],
+              ['🏦', 'Crédit formel (PADME, FECECAM…)', 'De grandes institutions de microfinance au Bénin : l\'app génère votre dossier pour y accéder au crédit.'],
             ].map(([ico, titre, desc]) => (
               <div key={titre} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
                 <span style={{ fontSize: '1.4rem', lineHeight: 1 }}>{ico}</span>
