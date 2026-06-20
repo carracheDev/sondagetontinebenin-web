@@ -232,3 +232,11 @@ img {
     padding: 1rem !important;
   }
 }
+
+/* Impression / export PDF */
+@media print {
+  .no-print { display: none !important; }
+  body { background: #fff !important; }
+  .card { box-shadow: none !important; border: 1px solid #e5e7eb !important; }
+  table { font-size: 9px !important; }
+}
