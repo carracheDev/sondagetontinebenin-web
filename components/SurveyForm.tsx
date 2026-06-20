@@ -318,10 +318,10 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                7. Fréquence de cotisation ? *
+                7. À quelle fréquence mettez-vous de l&apos;argent de côté ? *
               </label>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
-                {['Quotidien', 'Hebdo', 'Mensuel'].map(v => (
+                {['Par jour', 'Par semaine', 'Par mois'].map(v => (
                   <RadioChoice key={v} name="frequence" value={v} label={v}
                     selected={data.frequence === v} onSelect={() => set('frequence', v)} />
                 ))}
