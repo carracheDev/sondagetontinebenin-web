@@ -76,6 +76,7 @@ function CheckboxChoice({ label, selected, onToggle }: {
 const TOTAL_STEPS = 5;
 
 export default function SurveyForm() {
+  const [started, setStarted] = useState(false);
   const [step, setStep] = useState(1);
   const [data, setData] = useState<FormData>(initialData);
   const [loading, setLoading] = useState(false);
@@ -188,8 +189,49 @@ export default function SurveyForm() {
         </p>
       </div>
 
-      <StepIndicator current={step} total={TOTAL_STEPS} />
+      {!started && (
+        <div className="card" style={{ marginTop: '1rem' }}>
+          <h2 style={{ fontSize: '1.15rem', fontWeight: 800, color: '#1E3A8A', marginTop: 0 }}>
+            Bienvenue 👋
+          </h2>
+          <p style={{ color: '#374151', fontSize: '0.95rem', lineHeight: 1.55, marginTop: '0.4rem' }}>
+            <strong>TontineBénin</strong> veut digitaliser l&apos;épargne et le crédit au Bénin :
+            épargner en toute sécurité, garder des preuves, et accéder plus facilement au crédit.
+            Vos réponses (anonymes) nous aident à construire la meilleure solution pour vous.
+          </p>
 
+          <div style={{ marginTop: '1rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+            {[
+              ['💰', 'Tontine digitale', 'Cotisez en sécurité, avec un reçu pour chaque dépôt.'],
+              ['🧑🏾‍💼', 'Collecteur digital', 'L\'agent qui collecte votre argent, mais chaque dépôt confirmé sur votre téléphone.'],
+              ['💳', 'Micro-crédit', 'Un petit crédit débloqué grâce à votre régularité d\'épargne, sans paperasse.'],
+              ['🏦', 'Crédit formel (PADME, FECECAM…)', 'Ce sont de grandes institutions de microfinance au Bénin. L\'app peut générer automatiquement votre dossier pour y accéder au crédit.'],
+            ].map(([ico, titre, desc]) => (
+              <div key={titre} style={{ display: 'flex', gap: '0.75rem', alignItems: 'flex-start' }}>
+                <span style={{ fontSize: '1.4rem', lineHeight: 1 }}>{ico}</span>
+                <div>
+                  <div style={{ fontWeight: 700, color: '#1e293b', fontSize: '0.92rem' }}>{titre}</div>
+                  <div style={{ color: '#64748b', fontSize: '0.82rem', lineHeight: 1.4 }}>{desc}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ background: '#eff6ff', borderRadius: 12, padding: '0.85rem 1rem', border: '1px solid #bfdbfe', margin: '1.25rem 0' }}>
+            <p style={{ margin: 0, fontSize: '0.82rem', color: '#1E3A8A' }}>
+              ⏱️ 3 minutes · 🔒 Anonyme · 🇧🇯 Pour le Bénin
+            </p>
+          </div>
+
+          <button className="btn-primary" onClick={() => setStarted(true)} style={{ width: '100%' }}>
+            Commencer le sondage →
+          </button>
+        </div>
+      )}
+
+      {started && <StepIndicator current={step} total={TOTAL_STEPS} />}
+
+      {started && (
       <div className="card" style={{ marginTop: '1rem' }}>
         {/* ÉTAPE 1 — Profil */}
         {step === 1 && (
@@ -268,7 +310,7 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                6. Comment épargnes-tu actuellement ? (Plusieurs choix possibles) *
+                6. Comment épargnez-vous actuellement ? (Plusieurs choix possibles) *
               </label>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {[
@@ -330,7 +372,7 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                8. Combien cotises-tu par cycle ? (FCFA) *
+                8. Combien cotisez-vous par cycle ? (FCFA) *
               </label>
               <input className="form-input" type="number" placeholder="Ex: 5000"
                 value={data.montant} onChange={e => set('montant', e.target.value)} min={0} />
@@ -359,7 +401,7 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                10. As-tu déjà perdu de l'argent (fuite d'un gérant ou d'un responsable) ? *
+                10. Avez-vous déjà perdu de l'argent (fuite d'un gérant ou d'un responsable) ? *
               </label>
               <div style={{ display: 'flex', gap: '0.75rem', marginBottom: data.perteArgent === 'Oui' ? '0.75rem' : 0 }}>
                 {['Oui', 'Non'].map(v => (
@@ -387,7 +429,7 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                12. Quel défaut principal trouves-tu dans ton système actuel ? *
+                12. Quel défaut principal trouvez-vous dans votre système actuel ? *
               </label>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {['Manque de confiance', 'Pas de suivi clair', 'Risque de vol', 'Déplacements fatigants', 'Lenteur des retraits'].map(v => (
@@ -411,7 +453,7 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '0.5rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                13. Utilises-tu MTN MoMo ou Moov Money ? *
+                13. Utilisez-vous MTN MoMo ou Moov Money ? *
               </label>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
                 {['MTN', 'Moov', 'Les deux', 'Aucun'].map(v => (
@@ -683,6 +725,7 @@ export default function SurveyForm() {
           )}
         </div>
       </div>
+      )}
     </div>
   );
 }
