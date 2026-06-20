@@ -443,24 +443,26 @@ export default function SurveyForm() {
 
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                12. Qu'est-ce qui vous ferait PEUR avec une application ? *
+                12. Qu'est-ce qui vous ferait PEUR avec une application ? (Plusieurs choix possibles) *
               </label>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                 {['Risque de piratage', 'Trop compliqué à utiliser', 'Pas d\'internet', 'Pas de contact humain', 'Rien, je suis prêt'].map(v => (
-                  <RadioChoice key={v} name="barriereAdoption" value={v} label={v}
-                    selected={data.barriereAdoption === v} onSelect={() => set('barriereAdoption', v)} />
+                  <CheckboxChoice key={v} label={v}
+                    selected={data.barriereAdoption.split(', ').includes(v)}
+                    onToggle={() => toggleCheckbox('barriereAdoption', v)} />
                 ))}
               </div>
             </div>
 
             <div style={{ marginBottom: '0.5rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                13. Utilisez-vous MTN MoMo ou Moov Money ? *
+                13. Quels réseaux Mobile Money utilisez-vous ? (Plusieurs choix possibles) *
               </label>
-              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                {['MTN', 'Moov', 'Les deux', 'Aucun'].map(v => (
-                  <RadioChoice key={v} name="mobileMoney" value={v} label={v}
-                    selected={data.mobileMoney === v} onSelect={() => set('mobileMoney', v)} />
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {['MTN MoMo', 'Moov Money', 'Celtiis Cash', 'Aucun'].map(v => (
+                  <CheckboxChoice key={v} label={v}
+                    selected={data.mobileMoney.split(', ').includes(v)}
+                    onToggle={() => toggleCheckbox('mobileMoney', v)} />
                 ))}
               </div>
             </div>
