@@ -10,7 +10,9 @@ import StepIndicator from './StepIndicator';
 type FormData = {
   age: string; sexe: string; ville: string; activite: string;
   typedevise: string; receptionUSSD: string;
+  participe: string;
   epargne: string; frequence: string; montant: string;
+  raisonNonParticipe: string; pretSiSolution: string; blocageNon: string; recommandation: string;
   nbMembres: string;
   gestionnaireArgent: string;
   commMode: string;
@@ -31,7 +33,9 @@ type FormData = {
 const initialData: FormData = {
   age: '', sexe: '', ville: '', activite: '',
   typedevise: '', receptionUSSD: '',
+  participe: '',
   epargne: '', frequence: '', montant: '',
+  raisonNonParticipe: '', pretSiSolution: '', blocageNon: '', recommandation: '',
   nbMembres: '', gestionnaireArgent: '', commMode: '',
   perteArgent: '', montantPerdu: '',
   fraisActuels: '',
@@ -106,13 +110,28 @@ export default function SurveyForm() {
       }
     }
     if (step === 2) {
-      if (!data.epargne || !data.frequence || !data.montant || !data.commMode) {
-        setError('Veuillez répondre à toutes les questions obligatoires.');
+      if (!data.participe) {
+        setError('Veuillez répondre à la première question.');
         return false;
       }
-      if ((data.epargne.includes('groupe') || data.epargne === 'Association') && (!data.nbMembres || !data.gestionnaireArgent)) {
-        setError('Veuillez préciser les détails de votre groupe de tontine.');
-        return false;
+      if (data.participe === 'Oui') {
+        if (!data.epargne || !data.frequence || !data.montant || !data.commMode) {
+          setError('Veuillez répondre à toutes les questions obligatoires.');
+          return false;
+        }
+        if ((data.epargne.includes('groupe') || data.epargne.includes('Association')) && (!data.nbMembres || !data.gestionnaireArgent)) {
+          setError('Veuillez préciser les détails de votre groupe de tontine.');
+          return false;
+        }
+      } else {
+        if (!data.raisonNonParticipe || !data.pretSiSolution) {
+          setError('Veuillez répondre à toutes les questions de cette étape.');
+          return false;
+        }
+        if (data.pretSiSolution === 'Non' && !data.blocageNon) {
+          setError('Dites-nous ce qui vous empêcherait d\'utiliser une telle solution.');
+          return false;
+        }
       }
     }
     if (step === 3) {
@@ -306,12 +325,27 @@ export default function SurveyForm() {
         {step === 2 && (
           <div>
             <h2 style={{ fontSize: '1.1rem', fontWeight: 700, color: '#1E3A8A', marginTop: 0 }}>
-              💵 Votre épargne & groupe
+              💵 Votre épargne
             </h2>
 
+            {/* QUESTION FILTRE — on ne suppose pas que tout le monde épargne */}
             <div style={{ marginBottom: '1.25rem' }}>
               <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
-                6. Comment épargnez-vous actuellement ? (Plusieurs choix possibles) *
+                6. Participez-vous à une tontine, ou épargnez-vous régulièrement ? *
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                {['Oui', 'Non'].map(v => (
+                  <RadioChoice key={v} name="participe" value={v} label={v}
+                    selected={data.participe === v} onSelect={() => set('participe', v)} />
+                ))}
+              </div>
+            </div>
+
+            {/* ───── BRANCHE « OUI » : habitudes d'épargne actuelles ───── */}
+            {data.participe === 'Oui' && (<>
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                Comment épargnez-vous actuellement ? (Plusieurs choix possibles) *
               </label>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
                 {[
@@ -390,6 +424,64 @@ export default function SurveyForm() {
                 ))}
               </div>
             </div>
+            </>)}
+
+            {/* ───── BRANCHE « NON » : intention d'adoption + recommandations ───── */}
+            {data.participe === 'Non' && (<>
+            <div style={{ background: '#eff6ff', borderRadius: 12, padding: '0.85rem 1rem', border: '1px solid #bfdbfe', marginBottom: '1.25rem' }}>
+              <p style={{ margin: 0, fontSize: '0.85rem', color: '#1E3A8A', lineHeight: 1.5 }}>
+                Pas de souci 🙂 Vos réponses sont précieuses pour comprendre ce qui vous aiderait à épargner sereinement.
+              </p>
+            </div>
+
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                Qu&apos;est-ce qui vous empêche d&apos;épargner ou de participer à une tontine ? (Plusieurs choix possibles) *
+              </label>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                {['Je n\'ai pas confiance', 'Je n\'ai pas les moyens', 'Peur de perdre mon argent', 'Je n\'ai jamais eu l\'occasion', 'C\'est trop compliqué', 'Je préfère garder mon argent chez moi'].map(v => (
+                  <CheckboxChoice key={v} label={v}
+                    selected={data.raisonNonParticipe.split(', ').includes(v)}
+                    onToggle={() => toggleCheckbox('raisonNonParticipe', v)} />
+                ))}
+              </div>
+            </div>
+
+            <div style={{ marginBottom: '1.25rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                Si une solution <strong>simple, sécurisée et à domicile</strong> existait (application, collecteur de confiance, ou même sans internet par code USSD), seriez-vous prêt(e) à commencer à épargner ? *
+              </label>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.75rem' }}>
+                {['Oui sûrement', 'Peut-être', 'Non'].map(v => (
+                  <RadioChoice key={v} name="pretSiSolution" value={v} label={v}
+                    selected={data.pretSiSolution === v} onSelect={() => set('pretSiSolution', v)} />
+                ))}
+              </div>
+            </div>
+
+            {data.pretSiSolution === 'Non' && (
+              <div style={{ marginBottom: '1.25rem', background: '#fff7ed', padding: '1rem', borderRadius: 12, border: '1px solid #fed7aa' }}>
+                <label style={{ display: 'block', fontWeight: 700, marginBottom: '0.4rem', color: '#9a3412', fontSize: '0.9rem' }}>
+                  Qu&apos;est-ce qui vous empêcherait d&apos;utiliser une telle solution ? (Plusieurs choix possibles) *
+                </label>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                  {['Je ne fais pas confiance au digital', 'Je n\'ai pas de revenus réguliers', 'Je préfère le cash', 'Je n\'en vois pas l\'utilité', 'Autre raison'].map(v => (
+                    <CheckboxChoice key={v} label={v}
+                      selected={data.blocageNon.split(', ').includes(v)}
+                      onToggle={() => toggleCheckbox('blocageNon', v)} />
+                  ))}
+                </div>
+              </div>
+            )}
+
+            <div style={{ marginBottom: '0.5rem' }}>
+              <label style={{ display: 'block', fontWeight: 600, marginBottom: '0.6rem', color: '#374151' }}>
+                Quelles recommandations donneriez-vous pour qu&apos;une telle solution vous donne envie de l&apos;utiliser ? (facultatif)
+              </label>
+              <textarea className="form-input" rows={3} placeholder="Vos idées, vos conditions, ce qui vous rassurerait..."
+                value={data.recommandation} onChange={e => set('recommandation', e.target.value)} />
+            </div>
+            </>)}
           </div>
         )}
 
